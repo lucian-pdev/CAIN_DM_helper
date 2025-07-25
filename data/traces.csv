@@ -1,0 +1,10 @@
+id,trace_name,sin_type,talisman,description,abilities,complications
+1,Toadspawn,Toad,1-5,Mind-controlled or paid mercenaries,"Gunfire, martial arts, grenades, computer knowledge.;(1) 4 stress, (2/3): 3 stress,(4+) 2 stress",Radio in for reinforcements (+1d3 to talisman)
+2,Myrmidons,Hound,2-6,Blood-steamed echoes left by the Hound,"Bonus stress vs injured exorcists, roll the risk die for instant-death if attacking an exorcist on their final injury.(1) 4 stress, (2/3): 3 stress, (4+) 2 stress",Bloody Steam - chocke the lungs & 1 stress to act
+3,Infested Hordes,Centipede,Presure <4 groups: 3-5 and >3 hordes: 7+,Swarm with low cognition,"Area pressure attacks and alerts;(1) 4 stress, (2/3): 3 stress, (4+) 2 stress",Centipede Bite
+4,Juggernaut,Centipede,3-5,Armored brute immune to mundance attacks,"Physical attacks: (1) 4 stress, (2/3): 3 stress, (4+) 2 stress",Hive shroud (-1 slash) for allies
+5,Stalkers,Centipede,3-5,Assassin type enemy -- always in pairs,"Deal +1 stress to lone targets and focus on exclusion.(1) 4 stress, (2/3): 3 stress, (4+) 2 stress",Optical camo 1 turn -- become HARD to find or attack and next reaction does +1 stress
+6,Royal Guards,Lord,2,Soldiers,"Glaives, cannons;Physical attacks: (1) 4 stress, (2/3): 3 stress, (4+) 2 stress",
+7,Royal Guards,Lord,4,Soldiers,"Glaives, cannons;Physical attacks: (1) 4 stress, (2/3): 3 stress, (4+) 2 stress",
+8,Royal Guards,Lord,6,Soldiers,"Glaives, cannons;Physical attacks: (1) 4 stress, (2/3): 3 stress, (4+) 2 stress",
+9,Guardian,Lord,8,Armored Angel; Cannot lie and knows when you do; Traverses distances via portals and REFORMS if killed when pressure increases,"Greatsword;Physical attacks: (1) 4 stress, (2/3): 3 stress, (4+) 2 stress","Prisons of light, sonic booms, spears of glass memory"

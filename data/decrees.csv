@@ -1,0 +1,18 @@
+id,rarity,name,effect,stackable,downside
+0,common,Witch’s Whisper,Add +1 to all Skill rolls when interacting with spiral NPCs.,TRUE,
+1,common,Steady Hand,You may reroll 1 failed action per loop.,TRUE,
+2,common,Ember Bloom,Gain 1 free psyche burst; this use does not count toward trauma.,TRUE,
+3,common,Inventory Echo,"Gain a new kit item, themed by the current spiral’s emotion.",TRUE,
+4,common,Internal Compass,"If you reach the Palace before the second event concludes, the Sin  enters the Final Encounter in a Weakened State.",FALSE,
+5,rare,Blasphemic Touch,Choose 1 power from a random Blasphemy. You keep it until the loop ends.,TRUE,
+6,rare,Ghost Iron,Gain a new mundane service weapon that never misfires and ignores ammunition requirements.,FALSE,
+7,rare,Sanguine Pact,Restore your psyche burst slots immediately. One use.,TRUE,
+8,rare,Soul Scrip,Gain 3 Scrip this loop.,TRUE,
+9,rare,Spiral Vein,You may sense nearby trauma answer clues once per event scene.,FALSE,
+10,rare,Sin Mark,You gain a Sin Mark. Roll tables as per CAIN rules,TRUE,
+11,trade-off,Balance Tithe,50% chance to not use psyche burst or sin.,FALSE,"If the 50/50 fails, it doubles final cost (mixed cost: burst+sin allowed)"
+12,trade-off,Poem of steel,Your weapon becomes supernatural and harming a Sin with it is no longer a hard roll.,FALSE,"On a 1 roll, at any point during the attack, the Sin steals 1 sin point from you, recovers that many scratches on it's execution talisman."
+13,trade-off,Agenda Burn,"If your bolded agenda goal manifested this loop, you trigger Sin Overflow (unlimited abilities for 1 scene).",FALSE,"You don’t choose when it activates. The Player rolls a chance die (d6, 4+) every time they use psyche."
+14,trade-off,Echo Debt,Immediately choose an additional decree (even another Trade-Off) and activate it this loop.,TRUE,"After loop reset, you start with -1 Skill until you complete a scene alone. Players setting a new scene for this is allowed, at their peril."
+15,trade-off,Pact of Dust,"If you die, you rise immediately with full stats—but you and your team's memory of the trauma answers is wiped.",FALSE,Team cannot use trauma answers in Final Encounter unless re-learned.
+16,trade-off,Eye of the Spiral,Spiral NPCs treat you as if you are native to the spiral. They may openly share secrets or obey dangerous commands.,FALSE,"You may use this advantage only once per event—NPCs “forget” who you are after the scene ends, and reset with the loop."
