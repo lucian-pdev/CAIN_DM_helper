@@ -4,7 +4,7 @@
 cain-helper.py
 
 CAIN GM Helper
-© 2025 HowelBane, distributed under the MIT License.
+© 2025 lucian-pdev, distributed under the MIT License.
 
 Usage:
     cain-helper <command> [args]

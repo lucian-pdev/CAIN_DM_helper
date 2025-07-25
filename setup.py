@@ -13,7 +13,7 @@ setup(
     install_requires=[
         # any deps like click or tabulate if you add them later
     ],
-    author="HowelBane",
+    author="lucian-pdev",
     license="MIT",
     description="Terminal GM helper for the CAIN RPG",
 )
