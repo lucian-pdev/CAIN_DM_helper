@@ -17,7 +17,8 @@ import sys
 import importlib
 import os
 import shlex
-from functions.__csv_loader import DataStore
+from functions.__csv_loader import DataStore, Session
+import functions.demon
 
 # Setting up paths
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -39,34 +40,52 @@ data = {
     if file.endswith('.csv') and not file.startswith('_')
 }
 
+# Initialize the session object, it will be passed to modules that expect it. 
+session = None
+
 def dispatch(cmd, argv):
     """
     cmd: string, name of the command (e.g. 'draw_event')
     argv: list of strings, remaining command line arguments
     """
+    global session # Global variable to store the current session
     if cmd == "help":  # If the user asks for help
         print(f"Available commands: {', '.join(commands)}")
         return
-    elif cmd not in commands and cmd != 'help':
+    elif cmd not in commands:
         print(f"Unknown command: {cmd}")
         print(f"Available commands: {', '.join(commands)}")
-        sys.exit(1)
+        return None
         
 
     # Import the module dynamically
-    module = importlib.import_module(f'functions.{cmd}')
+    try:
+        module = importlib.import_module(f'functions.{cmd}')
+    except:
+        print(f"Failed to import module 'functions.{cmd}'.")
+        sys.exit(1)
     
     # Call the main function of the module with remaining arguments
+    # also pass session object if module expect it
     if hasattr(module, 'main'):
-        module.main(*argv)
+        if 'session' in module.main.__code__.co_varnames:
+            result = module.main(*argv, session=session)
+        else:
+            result = module.main(*argv)
+        if isinstance(result, Session):
+            session = result
+        return session
     else:
         print(f"Module '{cmd}' does not have a main function.")
         sys.exit(1)
         
 def repl():
     """ Interactive prompt loop. """
+    
+    global session
+    
     os.system('clear' if os.name == 'posix' else 'cls')
-    print(" "*3,"Welcome to the CAIN Helper REPL!")
+    print('\n'," "*3,"Welcome to the CAIN Helper REPL!")
     print("""Type 'help' for available commands or 'exit' to quit.\nThe structure I desgned for these CAIN sessions is:\n
           1) draw_spiral - to start a new spiral, this also gives your players the initial sin information.and decrees.
           2) draw_event - to draw an event from the spiral. I designed for 2 events per spiral, then the palace reveals itself for the boss fight.
@@ -90,7 +109,12 @@ def repl():
             cmd = parts[0]
             args = parts[1:]
             
-            dispatch(cmd, args)
+            temp_session = dispatch(cmd, args)
+            
+            # saving progress
+            if temp_session is not None:
+                session = temp_session
+                functions.demon.save_current_session(session)
             
         except (EOFError, KeyboardInterrupt):
             print("\nGoodbye!")
@@ -109,6 +133,8 @@ def main():
         cmd = sys.argv[1]
         args = sys.argv[2:]
         dispatch(cmd, args)
+        
+        
         
 if __name__ == "__main__":
     main()

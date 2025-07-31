@@ -37,7 +37,52 @@ def _find_sin(sin_type):
     for sin in _sins:
         if sin['sin_type'] == sin_type:
             return sin
-  
+        
+        
+class Session:
+    def __init__(self):
+        self.SesDetails = {'spiral':None, 'sin':None, 'PCs':None, 'events': [], 'decrees_counter':0, 'afflictions': {}, 'traces': {}}
+        
+    def __str__(self):
+        return f"Session Details: {self.SesDetails}"
+        
+    def setter(self, key, value):
+        if key not in self.SesDetails or self.SesDetails[key] is None:
+            self.SesDetails[key] = value
+        elif isinstance(self.SesDetails[key], dict):
+            if isinstance(value, dict):
+                self.SesDetails[key].update(value)
+            else:
+                print(f"Skipped update: expected dict for '{key}', got {type(value).__name__}")
+        elif isinstance(self.SesDetails[key], list):
+            self.SesDetails[key].append(value)
+        elif isinstance(self.SesDetails[key], (str, int)):
+            self.SesDetails[key] = value
+
+    def deleter(self, key):
+        del self.SesDetails[key]
+        
+    def getter(self, key):
+        return self.SesDetails[key]
+    
+    def register_individual_PC(self, PC):
+        self.SesDetails['PCs'].append(PC)
+    
+    def event_count(self):
+        '''Return the number of events in the session'''
+        return len(self.SesDetails['events'])
+    
+    def add_event(self, event):
+        self.SesDetails['events'].append(event)
+        
+    def add_affliction(self, PC, affliction):
+        '''Add key=PC, value=affliction'''
+        self.SesDetails['afflictions'][PC] = affliction
+        
+    def add_trace(self, trace, execution):
+        '''Add key=trace, execution=value'''
+        self.SesDetails['traces'][trace] = execution
+    
     
 if __name__ == "__main__":
     print(f"Static test:{_test("spirals",3,"spiral_name")}")

@@ -4,7 +4,8 @@
 Randomly choose a spiral and begin the loop.
 """
 import random
-from functions.__csv_loader import DataStore
+from functions.__csv_loader import DataStore, Session
+# import functions.draw_decrees
 
 # Load ONCE
 _spirals = DataStore.spirals
@@ -27,7 +28,7 @@ def _find_sin():
     print("Sin not found.")
 
 
-def main(*args):
+def main(*args, session=None):
     """
     Usage:
         draw spiral # random pick
@@ -49,12 +50,36 @@ def main(*args):
     sin = _sins[int(spiral['id'])-1]
     
     # REPL output for first phase of the game
-    output = f"""Light shines into your eyes. A cave of dust, walls covered in featureless faces.\n The void in their mouths speaks:\n\n \"The realm is engulfed by a {spiral["spiral_name"]}, {spiral["world_twisting"]}\n Do you think you can handle {spiral["trauma_themes"]}?\n"""
-    output += f""" The monster you will hunt is categorized as {spiral["sin_type"]}.\n It is called {sin["sin_name"]} - {sin['title']}\nPry open it's heart with blades of thought and whisper!\n
+    output = f"""Light shines into your eyes. A cave of dust, walls covered in featureless faces.\n The void in their mouths speaks:\n\n 
+    \"The realm is engulfed by {spiral["spiral_name"]}, {spiral["world_twisting"]}\n Do you think you can handle: {spiral["trauma_themes"]}?\n"""
+    output += f""" The monster you will hunt is categorized as {spiral["sin_type"]}.\n It is called {sin["sin_name"]} - {sin['title']}\n
+    Pry open it's heart with blades of thought and whisper!\n
     The Questions to guide you shall be:\n{sin['question_1']}\n{sin['question_2']}\n{sin['question_3']}\n\n"""
     output += f"It seeks you too, but if you can corner it before it's ready, fate will be at your back.\n"
-    output += f"Take this token, it will help you on your way.\n"
-    decrees_count = 1
-    
+    output += f'Who will challenge the Spiral?\n'
     print(output)
-    return spiral, sin, decrees_count
+    
+    # Create the session object
+    session = Session()
+    session.setter('spiral', spiral)
+    session.setter('sin', sin)
+    
+    # Add the PCs to the session
+    list_of_PCs = []
+    
+    sanitize = lambda name: ''.join(c for c in name if c.isalnum() or c in [' ', '_', '-', "'"])
+
+    while True:
+        PC = sanitize(str(input("Enter a PC name: ").strip()))
+        if not PC:
+            if list_of_PCs:
+                print(f"{len(list_of_PCs)} PC(s) added.")
+            break
+        list_of_PCs.append(PC)
+    session.setter('PCs', list_of_PCs)
+    
+    output = f"Take this token, it will help you on your way.\n"
+    print(output)
+    # session = functions.draw_decrees(session)
+    
+    return session
