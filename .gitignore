@@ -1,4 +1,4 @@
 notes/
 functions/__pycache__/
 data/current_session.csv
-data/previous_session.csv
+data/previous_sessions.csv
