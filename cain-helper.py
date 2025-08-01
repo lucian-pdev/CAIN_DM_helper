@@ -11,14 +11,16 @@ Usage:
     cain-helper           # enter interactive mode
 
 This file is the entrypoint for both Linux/Mac (via the shebang)
-and Windows (via setuptools console_script or .bat stub).
+and Windows (via setuptools console_script or the .bat script file)
+
+Python3 is mandatory to be installed.
 """
+
 import sys
 import importlib
 import os
 import shlex
 from functions.__csv_loader import DataStore, Session
-import functions.demon
 
 # Setting up paths
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -49,59 +51,70 @@ def dispatch(cmd, argv):
     argv: list of strings, remaining command line arguments
     """
     global session # Global variable to store the current session
-    if cmd == "help":  # If the user asks for help
+    
+    # Supporting subcommands
+    mod_name = cmd
+    func_name = argv[0] if len(argv) > 0 else 'main'
+    func_args = argv[1:] if len(argv) > 1 else []
+    
+    # Check if user wants/needs help
+    if mod_name == "help":
         print(f"Available commands: {', '.join(commands)}")
         return
-    elif cmd not in commands:
-        print(f"Unknown command: {cmd}")
+    elif mod_name not in commands:
+        print(f"Unknown command: {mod_name}")
         print(f"Available commands: {', '.join(commands)}")
         return None
-        
 
     # Import the module dynamically
     try:
-        module = importlib.import_module(f'functions.{cmd}')
-    except:
-        print(f"Failed to import module 'functions.{cmd}'.")
+        module = importlib.import_module(f'functions.{mod_name}')
+    except Exception as e:
+        print(f"Failed to import module 'functions.{mod_name}':{e}.")
         sys.exit(1)
     
-    # Call the main function of the module with remaining arguments
-    # also pass session object if module expect it
-    if hasattr(module, 'main'):
-        if 'session' in module.main.__code__.co_varnames:
-            result = module.main(*argv, session=session)
+    # Call the requested function
+    # also pass session object if module expects it
+    if hasattr(module, func_name):
+        func = getattr(module, func_name)
+        
+        if 'session' in func.__code__.co_varnames:
+            result = func(*func_args, session=session)
         else:
-            result = module.main(*argv)
+            result = func(*func_args)
+        
         if isinstance(result, Session):
             session = result
         return session
+    
     else:
-        print(f"Module '{cmd}' does not have a main function.")
+        print(f"Module '{mod_name}' does not have a '{func_name}'function.")
         sys.exit(1)
         
-def repl():
+def repl():     # Read-Eval-Print Loop = REPL, who would've thunk it
     """ Interactive prompt loop. """
     
     global session
     
     os.system('clear' if os.name == 'posix' else 'cls')
-    print('\n'," "*3,"Welcome to the CAIN Helper REPL!")
-    print("""Type 'help' for available commands or 'exit' to quit.\nThe structure I desgned for these CAIN sessions is:\n
-          1) draw_spiral - to start a new spiral, this also gives your players the initial sin information.and decrees.
-          2) draw_event - to draw an event from the spiral. I designed for 2 events per spiral, then the palace reveals itself for the boss fight.
+    print('\n'," "*3,"Welcome to the CAIN Helper REPL!\n")
+    print("""
+    Type 'help' for available commands or 'exit' to quit. The structure I desgned for these CAIN sessions is:\n\
+        1) draw_spiral - to start a new spiral, this also gives your players the initial sin information.and decrees.
+        2) draw_event - to draw an event from the spiral. I designed for 2 events per spiral, then the palace reveals itself for the boss fight.
                           But you can add more events if you like by running the draw_event command again.
-          3) draw_decree - to draw a decree when the players complete an event.
-          4) palace - to show the palace information in prepration for the boss fight.
-          5) sin - to show the sin information,\n
-          Mid-game commands: talisman, hook, traces, afflictions, show-status (of the session).
-          Make use of 'chatter' and 'reactions' to add flavor to your game.\n
+        3) draw_decree - to draw a decree when the players complete an event.
+        4) palace - to show the palace information in prepration for the boss fight.
+        5) sin - to show the sin information,\n
+    Mid-game commands: talisman, hook, traces, afflictions, show_status (of the session).
+    Make use of 'chatter' and 'reactions' to add flavor to your game.\n
           6) demon - this will print the ending screen and close the loop.
           [OPTIONAL] You can continue an incomplete session with the 'continue_session' command.\n
           """)
     
     while True:
         try:
-            user_input = input("> ")
+            user_input = input("\n> ")
             if user_input.strip().lower() in ['exit', 'quit']:
                 break
             
@@ -114,7 +127,7 @@ def repl():
             # saving progress
             if temp_session is not None:
                 session = temp_session
-                functions.demon.save_current_session(session)
+                # functions.demon.save(session)     #NOTE: uncomment to enable auto-saving
             
         except (EOFError, KeyboardInterrupt):
             print("\nGoodbye!")
@@ -135,14 +148,10 @@ def main():
         dispatch(cmd, args)
         
         
-        
 if __name__ == "__main__":
     main()
 else:
-    # If this file is imported, we can still use the dispatch function
-    # but we won't run the main() function automatically.
     print("cain-helper module loaded. Use dispatch() to call commands.")
     
-# This allows for easy testing and importing without executing main()
 # You can import this module in other scripts and use the dispatch function
 # to call specific commands programmatically.

@@ -5,7 +5,7 @@ Randomly choose a spiral and begin the loop.
 """
 import random
 from functions.__csv_loader import DataStore, Session
-# import functions.draw_decrees
+import functions.draw_decrees
 
 # Load ONCE
 _spirals = DataStore.spirals
@@ -42,7 +42,7 @@ def main(*args, session=None):
     elif len(args) == 1:
         spiral_name = args[0]
         spiral = _find_spiral(spiral_name)
-        
+        # Failsafe
         if not spiral:
             print(f"""Spiral {spiral_name} not found. Note: It's case-sensitive.\n
                   Options: {', '.join(s['spiral_name'] for s in _spirals)}""")
@@ -50,7 +50,7 @@ def main(*args, session=None):
     sin = _sins[int(spiral['id'])-1]
     
     # REPL output for first phase of the game
-    output = f"""Light shines into your eyes. A cave of dust, walls covered in featureless faces.\n The void in their mouths speaks:\n\n 
+    output = f"""\nLight shines into your eyes. A cave of dust, walls covered in featureless faces.\n The void in their mouths speaks:\n\n 
     \"The realm is engulfed by {spiral["spiral_name"]}, {spiral["world_twisting"]}\n Do you think you can handle: {spiral["trauma_themes"]}?\n"""
     output += f""" The monster you will hunt is categorized as {spiral["sin_type"]}.\n It is called {sin["sin_name"]} - {sin['title']}\n
     Pry open it's heart with blades of thought and whisper!\n
@@ -66,9 +66,11 @@ def main(*args, session=None):
     
     # Add the PCs to the session
     list_of_PCs = []
-    
+    # Make sure no PC names corrupt the code
     sanitize = lambda name: ''.join(c for c in name if c.isalnum() or c in [' ', '_', '-', "'"])
 
+
+    # Loop for adding PCs
     while True:
         PC = sanitize(str(input("Enter a PC name: ").strip()))
         if not PC:
@@ -78,8 +80,9 @@ def main(*args, session=None):
         list_of_PCs.append(PC)
     session.setter('PCs', list_of_PCs)
     
+    # Call for a decree choice to get the players started
     output = f"Take this token, it will help you on your way.\n"
     print(output)
-    # session = functions.draw_decrees(session)
+    functions.draw_decrees.main(session)  
     
-    return session
+    return session # return session object to carry on progress
