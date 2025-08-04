@@ -22,6 +22,15 @@ It is distributed freely with the intent to support and grow the community aroun
 
 ---
 
+## Future Plans
+
+- Add encounter randomizers
+- Add reactions and chatter for immersion
+- Add tracking for afflictions, past events, NPCs and traces
+- Add boss and boss arena functionalities
+
+---
+
 ## Contact
 
 For feedback, suggestions, or issues:  
