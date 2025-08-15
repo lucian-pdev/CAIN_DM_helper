@@ -43,7 +43,7 @@ data = {
 }
 
 # Initialize the session object, it will be passed to modules that expect it. 
-session = None
+session = Session()
 
 def dispatch(cmd, argv):
     """
@@ -60,7 +60,7 @@ def dispatch(cmd, argv):
     # Check if user wants/needs help
     if mod_name == "help":
         print(f"Available commands: {', '.join(commands)}")
-        return
+        return None
     elif mod_name not in commands:
         print(f"Unknown command: {mod_name}")
         print(f"Available commands: {', '.join(commands)}")

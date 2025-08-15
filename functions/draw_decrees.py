@@ -40,9 +40,8 @@ def randomize_decrees_by_rarity():
 
 def main(session=None, count=4):
     """Main function to draw decrees from the pool."""
-    if session is None:        # If no session is provided, abort, this is not an independent command
-        print("No session detected.")
-        return
+    if session is None:
+        session = Session()  # create a new Session if none is provided
     
     # Randomize the choice of decrees by rarity
     pool = randomize_decrees_by_rarity()
@@ -51,12 +50,12 @@ def main(session=None, count=4):
         name = str(pool[i]['name']).center(30)
         rarity_stackable = str("Rarity:" + pool[i]['rarity'] + "---" + "Stackable:" + pool[i]['stackable']).center(30)
         effect = "Effect: " + pool[i]['effect']
-        downside = "Downside: " + pool[i]['downside'] if pool[i]['downside'] else "-"*30
+        downside = "Downside: " + pool[i]['downside'] if pool[i]['downside'] else "Downside:-------------------------"
         
         print(f"{name}\n{rarity_stackable}\n\n{effect}\n{downside}\n" 
               if i < 3 else 
               f"""\n Additional choice, for when a Player has one of the non-stackable options already:
-              \n{name}\n{rarity_stackable}\n{effect}\n{downside}\n""")
+              \n{name}\n{rarity_stackable}\n\n{effect}\n{downside}\n""")
     
     session.SesDetails['decrees_counter'] += 1
     

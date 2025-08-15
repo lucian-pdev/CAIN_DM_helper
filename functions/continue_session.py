@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""Load and continue from a saved file."""
 
 import csv
 from functions.__csv_loader import  Session

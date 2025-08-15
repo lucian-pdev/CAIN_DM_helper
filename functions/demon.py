@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains the Permanent NPC: Demon. It will endand save the running session to a CSV file.
+This module contains the Permanent NPC: Demon. It will end the current session and save it to a CSV file.
 """
 
 import csv, os

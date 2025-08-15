@@ -2,7 +2,6 @@
 import csv
 from pathlib import Path
 from functools import lru_cache
-from os import strerror
 
 try:
     DATA_DIR = Path(__file__).parent.parent / 'data'    # Set the path to the data directory
@@ -44,19 +43,19 @@ class Session:
         
     def setter(self, key, value):
         '''Set the value of a key in the session details'''
-        if key not in self.SesDetails or self.SesDetails[key] is None: # If the key doesn't exist
+        if key not in self.SesDetails or self.SesDetails[key] is None: # If the key's value doesn't exist
             self.SesDetails[key] = value
             
-        elif isinstance(self.SesDetails[key], dict):    # If the key is a dictionary
-            if isinstance(value, dict):          # Failsafe, in case of wrong type
+        elif isinstance(self.SesDetails[key], dict):    # If the key's value is a dictionary
+            if isinstance(value, dict):                 # Failsafe, in case of wrong type
                 self.SesDetails[key].update(value)
             else:                                          # Abandon if wrong type
                 print(f"Skipped update: expected dict for '{key}', got {type(value).__name__}")
                 
-        elif isinstance(self.SesDetails[key], list):        # If the key is a list
+        elif isinstance(self.SesDetails[key], list):        # If the key's value is a list
             self.SesDetails[key].append(value)
             
-        elif isinstance(self.SesDetails[key], (str, int)):  # If the key is a string or int
+        elif isinstance(self.SesDetails[key], (str, int)):  # If the key's value is a string or int
             self.SesDetails[key] = value
 
     def deleter(self, key):

@@ -1,7 +1,7 @@
 # CAIN_DM__Helper
 
 A terminal-based helper app for Game Masters running the **CAIN TTRPG system** by Tom Bloom.  
-Inspired in part by the roguelike mode *The Duviri Experience* from Warframe, this tool aims to streamline gameplay and enhance immersion.
+Inspired in part by the roguelike mode *The Duviri Experience* from **Warframe**, by Digital Extremes, this tool aims to streamline gameplay and enhance immersion.
 
 ---
 
