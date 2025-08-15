@@ -1,7 +1,6 @@
 # CAIN_DM__Helper
 
 A terminal-based helper app for Game Masters running the **CAIN TTRPG system** by Tom Bloom.  
-Inspired in part by the roguelike mode *The Duviri Experience* from **Warframe**, by Digital Extremes, this tool aims to streamline gameplay and enhance immersion.
 
 ---
 
@@ -16,7 +15,7 @@ Inspired in part by the roguelike mode *The Duviri Experience* from **Warframe**
 ## Disclaimer
 
 This project is a **non-commercial passion project**.  
-It is distributed freely with the intent to support and grow the community around the **CAIN TTRPG** and **Warframe**.
+It is distributed freely with the intent to support and grow the community around the **CAIN TTRPG**.
 
 > No proprietary materials have been copied or redistributed from either source.
 
@@ -41,4 +40,3 @@ For feedback, suggestions, or issues:
 ## Acknowledgments
 
 - **Tom Bloom** for creating CAIN
-- **Digital Extremes** for Warframe and its inspiring design

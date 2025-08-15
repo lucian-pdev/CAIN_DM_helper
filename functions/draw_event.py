@@ -85,7 +85,7 @@ def main(session=None):
     buffer = format_paragraph(choice["issues"])
     print(f"{buffer}\n\n")
     
-    print("""Reminder: on event success call 'draw_decrees' to reward the player(s).\n
+    print("""Reminder: on event success call 'draw_booster' to reward the player(s).\n
             If pressure increased or the Sin has been injured, use "sin hp" to track it's value,
           """)
     

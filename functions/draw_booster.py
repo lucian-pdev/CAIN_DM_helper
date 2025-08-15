@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""The command to issue a choice of decrees (power-ups) to the player."""
+"""The command to issue a choice of boosters (power-ups) to the player."""
 
 import random
 from functions.__csv_loader import DataStore, Session
 
-def populate_rarity_decrees():
-    """Some decrees are more common than others."""
+def populate_rarity_boosters():
+    """Some boosters are more common than others."""
     common, rare, trade_off  = [], [], []
     
-    for decree in DataStore.decrees:
+    for decree in DataStore.boosters:
         if decree['rarity'] == 'common':
             common.append(decree)
         elif decree['rarity'] == 'rare':
@@ -20,9 +20,9 @@ def populate_rarity_decrees():
 
     return common, rare, trade_off
 
-def randomize_decrees_by_rarity():
-    """Randomize the choice of decrees by rarity."""
-    common, rare, trade_off = populate_rarity_decrees()
+def randomize_boosters_by_rarity():
+    """Randomize the choice of boosters by rarity."""
+    common, rare, trade_off = populate_rarity_boosters()
     random.shuffle(common)
     random.shuffle(rare)
     random.shuffle(trade_off)
@@ -31,7 +31,7 @@ def randomize_decrees_by_rarity():
     commons_chance = round(len(common) * (40/100))
     rares_chance = round(len(rare) * (30/100))
     
-    # Create a pool of decrees to choose from
+    # Create a pool of boosters to choose from
     pool = common[:commons_chance] + rare[:rares_chance] + trade_off[:rares_chance]
     random.shuffle(pool)
     
@@ -39,14 +39,14 @@ def randomize_decrees_by_rarity():
 
 
 def main(session=None, count=4):
-    """Main function to draw decrees from the pool."""
+    """Main function to draw boosters from the pool."""
     if session is None:
         session = Session()  # create a new Session if none is provided
     
-    # Randomize the choice of decrees by rarity
-    pool = randomize_decrees_by_rarity()
+    # Randomize the choice of boosters by rarity
+    pool = randomize_boosters_by_rarity()
     
-    for i in range(count):    # Amount of decrees to offer as a choice to the players, default is 3
+    for i in range(count):    # Amount of boosters to offer as a choice to the players, default is 3
         name = str(pool[i]['name']).center(30)
         rarity_stackable = str("Rarity:" + pool[i]['rarity'] + "---" + "Stackable:" + pool[i]['stackable']).center(30)
         effect = "Effect: " + pool[i]['effect']
@@ -57,6 +57,6 @@ def main(session=None, count=4):
               f"""\n Additional choice, for when a Player has one of the non-stackable options already:
               \n{name}\n{rarity_stackable}\n\n{effect}\n{downside}\n""")
     
-    session.SesDetails['decrees_counter'] += 1
+    session.SesDetails['boosters_counter'] += 1
     
     return session  # Return session object to carry on progress

@@ -36,7 +36,7 @@ class Session:
     """A class to store the session details and pass it along to other functions."""
     def __init__(self):     # The main purpose of this object is to store these session details
         self.SesDetails = {'spiral':None, 'sin':None, 'sin_HP':0, 'PCs':None, 'events': [],
-                           'decrees_counter':0, 'afflictions': {}, 'traces': {}}
+                           'boosters_counter':0, 'afflictions': {}, 'traces': {}}
         
     def __str__(self):
         return f"Session Details: {self.SesDetails}"

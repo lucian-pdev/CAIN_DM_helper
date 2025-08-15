@@ -5,7 +5,7 @@ Randomly choose a spiral and begin the loop.
 """
 import random
 from functions.__csv_loader import DataStore, Session
-import functions.draw_decrees
+import functions.draw_booster
 
 # Load ONCE
 _spirals = DataStore.spirals
@@ -87,9 +87,9 @@ def main(*args, session=None):
         list_of_PCs.append(PC)
     session.setter('PCs', list_of_PCs)
     
-    # Call for a decree choice to get the players started
+    # Call for a booster choice to get the players started
     buffer = f"\nTake this token, it will help you on your way.\n"
     print(buffer)
-    functions.draw_decrees.main(session)  
+    functions.draw_booster.main(session)  
     
     return session # return session object to carry on progress
