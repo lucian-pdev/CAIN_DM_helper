@@ -17,16 +17,13 @@ A terminal-based helper app for Game Masters running the **CAIN TTRPG system** b
 This project is a **non-commercial passion project**.  
 It is distributed freely with the intent to support and grow the community around the **CAIN TTRPG**.
 
-> No proprietary materials have been copied or redistributed from either source.
-
 ---
 
 ## Future Plans
 
-- Add encounter randomizers
 - Add reactions and chatter for immersion
-- Add tracking for afflictions, past events, NPCs and traces
-- Add boss and boss arena functionalities
+- Add tracking for NPCs
+- Add boss arena functionalities
 
 ---
 

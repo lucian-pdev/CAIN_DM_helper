@@ -22,7 +22,7 @@ class DataStore:    #WARNING: DataStore contains cached lists, not PATHs! DO NOT
     """Each loac_csv call is cached by the decorator lru_cache; no doubling memory"""
     spirals             = load_csv('spirals')
     sins                = load_csv('sins')
-    decrees             = load_csv('decrees')
+    boosters            = load_csv('boosters')
     events              = load_csv('events')
     current_session     = load_csv('current_session')
     previous_sessions   = load_csv('previous_sessions')
@@ -106,7 +106,7 @@ def _find_sin(sin_type):
 if __name__ == "__main__":
     print(f"Static test:{_test("spirals",3,"spiral_name")}")
     print(f"Static test:{_test("sins",5,"title")}")
-    print(f"Static test:{_test("decrees",2,"effect")}")
+    print(f"Static test:{_test("boosters",2,"effect")}")
         # conclusions: the csv loader creates a list of dictionaries
         # where each dictionary represents a row in the CSV file
         # as such, the first index is the row number (0-based)
