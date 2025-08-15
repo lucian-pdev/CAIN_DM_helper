@@ -3,7 +3,7 @@
 
 """Draws an event from the spiral and updates session object."""
 
-from functions.__csv_loader import DataStore, Session
+from functions.__csv_loader import DataStore
 import random
 import re
 
@@ -27,19 +27,6 @@ def populate_events(session=None):
 
     return available_events   # returns a list of all events
 
-
-# def format_paragraph(text, word_count):
-#     """Formats a single line text into a readable paragraph."""
-    
-    # buffer = text.split()
-    # for word_index in range(len(buffer)):
-    #     if "." in buffer[word_index] and buffer[word_index] != "...":
-    #         buffer.insert(word_index + 1, "\n")
-    #     elif word_index % word_count == 0 and buffer[word_index] != " ":
-    #         buffer.insert(word_index , "\n")
-            
-    # buffer = ' '.join(buffer)
-    # return buffer
 
 def format_paragraph(text, word_count=15):
     """Formats a single line text into a readable paragraphs using punctuation and word count."""
@@ -76,7 +63,7 @@ def main(session=None):
         return None
     
     # add to object
-    session.setter("events", choice)
+    session.add_event(choice)
 
     # display the event to user
     buffer = choice["spiral_name"] + " -- " + choice["event_name"]
@@ -97,5 +84,9 @@ def main(session=None):
     
     buffer = format_paragraph(choice["issues"])
     print(f"{buffer}\n\n")
+    
+    print("""Reminder: on event success call 'draw_decrees' to reward the player(s).\n
+            If pressure increased or the Sin has been injured, use "sin hp" to track it's value,
+          """)
     
     return session

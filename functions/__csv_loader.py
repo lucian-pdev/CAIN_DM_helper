@@ -35,7 +35,7 @@ class DataStore:    #WARNING: DataStore contains cached lists, not PATHs! DO NOT
 class Session:      
     """A class to store the session details and pass it along to other functions."""
     def __init__(self):     # The main purpose of this object is to store these session details
-        self.SesDetails = {'spiral':None, 'sin':None, 'PCs':None, 'events': [],
+        self.SesDetails = {'spiral':None, 'sin':None, 'sin_HP':0, 'PCs':None, 'events': [],
                            'decrees_counter':0, 'afflictions': {}, 'traces': {}}
         
     def __str__(self):
@@ -81,6 +81,14 @@ class Session:
     def add_trace(self, trace, execution):
         '''Add key=trace, execution=value'''
         self.SesDetails['traces'][trace] = execution
+        
+    def sin_hp(self, value):
+        '''Modify the Hit Points of the boss'''
+        try:
+            self.SesDetails['sin_HP'] += int(value)
+        except (ValueError, TypeError, ArithmeticError) as e:
+            print("Error {e} has been detected, operation aborted.")
+            pass
     
 # Testing functions below   
 def _test(a,b,c):

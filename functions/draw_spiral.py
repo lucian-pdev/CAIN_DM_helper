@@ -19,14 +19,6 @@ def _find_spiral():
             return
     print("Spiral not found.")
 
-def _find_sin():
-    sin_type = input("Enter the type of sin you're looking for: ")
-    for sin in _sins:
-        if sin['sin_type'] == sin_type:
-            print(sin)
-            return
-    print("Sin not found.")
-
 
 def main(*args, session=None):
     """
@@ -73,9 +65,11 @@ def main(*args, session=None):
         session = Session()
     else:
         session = session
-        
+    
+    # Assign values to the object
     session.setter('spiral', spiral)
     session.setter('sin', sin)
+    session.setter('sin_HP', sin["initial_HP"])
     
     # Add the PCs to the session
     list_of_PCs = []
