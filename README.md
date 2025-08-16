@@ -21,19 +21,19 @@ It is distributed freely with the intent to support and grow the community aroun
 
 ## Future Plans
 
-- Add reactions and chatter for immersion
-- Add tracking for NPCs
-- Add boss arena functionalities
+- Add functionality: reactions and chatter for immersion
+- Add functionality: tracking for NPCs
+- Add functionality: show details about affliction's impact
+- Expand functionality: palace (boss arena)
 
 ---
 
 ## Contact
 
-For feedback, suggestions, or issues:  
-**lucianpreda@protonmail.com**
+Leave a message for feedback, suggestions, or issues.
 
 ---
 
 ## Acknowledgments
 
-- **Tom Bloom** for creating CAIN
+- **Tom Bloom** for creating CAIN.
