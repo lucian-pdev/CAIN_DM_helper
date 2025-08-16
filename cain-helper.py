@@ -42,7 +42,7 @@ data = {
     if file.endswith('.csv') and not file.startswith('_')
 }
 
-# Initialize the session object, it will be passed to modules that expect it. 
+# Initialize the session object, it will be passed to modules. 
 session = Session()
 
 def dispatch(cmd, argv):
@@ -59,11 +59,15 @@ def dispatch(cmd, argv):
     
     # Check if user wants/needs help
     if mod_name == "help":
-        print(f"Available commands: {', '.join(commands)}")
+        print(f"Available commands: {', '.join(commands)}, register_1_PC.")
         return None
+    elif mod_name == "register_1_PC":
+        sanitize = lambda name: ''.join(c for c in name if c.isalnum() or c in [' ', '_', '-', "'"])
+        PC = sanitize(str(input("Enter a PC name: ").strip()))
+        session.register_individual_PC(PC)
     elif mod_name not in commands:
         print(f"Unknown command: {mod_name}")
-        print(f"Available commands: {', '.join(commands)}")
+        print(f"Available commands: {', '.join(commands)}, register_1_PC.")
         return None
 
     # Import the module dynamically
@@ -95,21 +99,24 @@ def repl():     # Read-Eval-Print Loop = REPL, who would've thunk it
     """ Interactive prompt loop. """
     
     global session
+    tension_reminder = 0
     
     os.system('clear' if os.name == 'posix' else 'cls')
     print('\n'," "*3,"Welcome to the CAIN Helper REPL!\n")
     print("""
-    Type 'help' for available commands or 'exit' to quit. The structure I desgned for these CAIN sessions is:\n\
-        1) draw_spiral - to start a new spiral, this also gives your players the initial sin information.and decrees.
-        2) draw_event - to draw an event from the spiral. I designed for 2 events per spiral, then the palace reveals itself for the boss fight.
+    Type 'help' for available commands or 'exit' to quit. The structure I designed for these CAIN sessions is:\n\
+        1) draw_spiral  - to start a new spiral, this also gives your players the initial sin information.and boosters.
+        2) draw_event   - to draw an event from the spiral. I designed for 2 events per spiral, then the palace reveals itself for the boss fight.
                           But you can add more events if you like by running the draw_event command again.
-        3) draw_decree - to draw a decree when the players complete an event.
-        4) palace - to show the palace information in prepration for the boss fight.
-        5) sin - to show the sin information,\n
-    Mid-game commands: talisman, hook, traces, afflictions, show_status (of the session).
+        3) draw_booster - to draw a booster when the players complete an event.
+        4) palace       - to show the information about the boss's lair.
+        5) sin          - to show the boss information and additional functions.\n
+    Mid-game commands: talisman, hook, traces, afflictions, status (of the session).
     Make use of 'chatter' and 'reactions' to add flavor to your game.\n
-          6) demon - this will print the ending screen and close the loop.
+          6) demon      - this will print the ending screen and close the loop.
+          [NOTE] Make use of 'tension' and 'pressure' to keep track of the hunt's progress.\n
           [OPTIONAL] You can continue an incomplete session with the 'continue_session' command.\n
+          [OPTIONAL] The party registration is done durin draw_spiral, for individual sign-ups use 'register_1_PC'.
           """)
     
     while True:
@@ -128,7 +135,11 @@ def repl():     # Read-Eval-Print Loop = REPL, who would've thunk it
             if temp_session is not None:
                 session = temp_session
                 # functions.demon.save(session)     #NOTE: uncomment to enable auto-saving
-            
+                tension_reminder += 1
+                if tension_reminder >= 3:
+                    print("Tension reminder: did the scene change or a risk die rolled a 1?")
+                    tension_reminder = 0
+
         except (EOFError, KeyboardInterrupt):
             print("\nGoodbye!")
             sys.exit(0)

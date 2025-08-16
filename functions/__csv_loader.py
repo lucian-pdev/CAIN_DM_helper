@@ -36,7 +36,8 @@ class Session:
     """A class to store the session details and pass it along to other functions."""
     def __init__(self):     # The main purpose of this object is to store these session details
         self.SesDetails = {'spiral':None, 'sin':None, 'sin_HP':0, 'PCs':None, 'events': [],
-                           'boosters_counter':0, 'afflictions': {}, 'traces': {}}
+                           'boosters_counter':0, 'afflictions': {}, 'traces': {}, 'trackers': {},
+                           "pressure":0, "tension":0}
         
     def __str__(self):
         return f"Session Details: {self.SesDetails}"
@@ -73,14 +74,6 @@ class Session:
     
     def add_event(self, event):         # Keep a log of the events, to be able to maintain the narrative
         self.SesDetails['events'].append(event)
-        
-    def add_affliction(self, PC, affliction):
-        '''Add key=PC, value=affliction'''
-        self.SesDetails['afflictions'][PC] = affliction
-        
-    def add_trace(self, trace, execution):
-        '''Add key=trace, execution=value'''
-        self.SesDetails['traces'][trace] = execution
         
     def sin_hp(self, value):
         '''Modify the Hit Points of the boss'''

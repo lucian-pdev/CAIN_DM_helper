@@ -105,7 +105,7 @@ def act(session=None, roll=6):
     print(f"\nRisk Die Rolled: {roll}")
     print(f"Boss chooses to: {chosen_action.upper()}")
 
-    time.sleep(5)
+    time.sleep(3) # Give the user time to read the previous line
     
     # Execute the chosen action
     if chosen_action == "attack":

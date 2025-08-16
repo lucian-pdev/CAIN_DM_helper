@@ -23,4 +23,4 @@ def traces(session=None):
 
         print(f"  [{i}] {name} — HP: {hp} | Tier: {tier} | Status: {status}")
 
-    print("\n\n*Note: Use sin traces to summon new ones.")
+    print("\n\n*Note: Use 'sin trace' to summon new ones.")
