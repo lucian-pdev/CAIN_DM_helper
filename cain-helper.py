@@ -54,8 +54,12 @@ def dispatch(cmd, argv):
     
     # Supporting subcommands
     mod_name = cmd
-    func_name = argv[0] if len(argv) > 0 else 'main'
-    func_args = argv[1:] if len(argv) > 1 else []
+    if len(argv) > 0 and hasattr(importlib.import_module(f'functions.{cmd}'), argv[0]):
+        func_name = argv[0] if len(argv) > 0 else 'main'
+        func_args = argv[1:] if len(argv) > 1 else []
+    else:
+        func_name = 'main'
+        func_args = argv
     
     # Check if user wants/needs help
     if mod_name == "help":
@@ -137,7 +141,7 @@ def repl():     # Read-Eval-Print Loop = REPL, who would've thunk it
                 # functions.demon.save(session)     #NOTE: uncomment to enable auto-saving
                 tension_reminder += 1
                 if tension_reminder >= 3:
-                    print("Tension reminder: did the scene change or a risk die rolled a 1?")
+                    print("\nTension reminder: did the scene change or a risk die rolled a 1?")
                     tension_reminder = 0
 
         except (EOFError, KeyboardInterrupt):

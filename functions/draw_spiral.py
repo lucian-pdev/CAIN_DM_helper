@@ -78,6 +78,7 @@ def main(*args, session=None):
 
 
     # Loop for adding PCs
+    print("Enter a PC's name or leave blank to stop recording.")
     while True:
         PC = sanitize(str(input("Enter a PC name: ").strip()))
         if not PC:

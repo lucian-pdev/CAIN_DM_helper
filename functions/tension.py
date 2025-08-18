@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Handles tension escalation in the CAIN system."""
 
-import functions.pressure as pressure
+from functions.pressure import main as pressure
 
-def tension(session=None):
+def main(session=None):
     """Increase tension and notify the user if the threshold is hit."""
 
     if session is None:
@@ -23,5 +23,6 @@ def tension(session=None):
     if new_tension == 3:
         print("The air thickens. Pressure must now escalate.")
         session = pressure(session)
+        session.setter("tension", 0)
 
     return session

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Display a quick overview of the current session state."""
 
-def status(session=None):
+def main(session=None):
     """Show a formatted summary of all major session elements."""
 
     if session is None:

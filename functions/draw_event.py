@@ -73,16 +73,16 @@ def main(session=None):
     print(buffer.center(100))
     print(f"-"*100, "\n", sep = "")
     
-    buffer = format_paragraph(choice["initial_description"])
+    buffer = "Introduction: " + format_paragraph(choice["initial_description"])
     print(f"{buffer}\n\n")
     
     buffer = "Remember the whispers of the Warden: " + choice["trauma_question"] + "\n" + format_paragraph(choice["question_implementation"])
     print(f"{buffer}\n")
     
-    buffer = format_paragraph(choice["task"])
+    buffer = "Task: " + format_paragraph(choice["task"])
     print(f"{buffer}\n\n")
     
-    buffer = format_paragraph(choice["issues"])
+    buffer = "Hurdles: " + format_paragraph(choice["issues"])
     print(f"{buffer}\n\n")
     
     print("""Reminder: on event success call 'draw_booster' to reward the player(s).\n

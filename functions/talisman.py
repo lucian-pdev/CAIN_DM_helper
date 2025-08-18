@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Create and track talismans across the session."""
        
-def main(task_name=None, max=3, progress=0, assigned="Party", result="", session=None, tracker_type="talisman"):
+def main(task_name=None, result="", progress=0, max=3, assigned="Party", session=None, tracker_type="talisman"):
     """Manage talismans as progress trackers."""
 
     if session is None:
@@ -15,14 +15,15 @@ def main(task_name=None, max=3, progress=0, assigned="Party", result="", session
     if task_name is None:
         if not trackers:
             print("""No active trackers.\n
-                  Create new talismans with 'talisman/hook <task_name> <max> <progress> <assigned> <result>'.\n""")
+            Create new talismans with 'talisman/hook <Task_Name> <Result> <Progress> <Max> <Assigned_To>'.\n
+            If you need Task_name or result to have more than 1 word, surround them in single quotes ( '' ).""")
             return None
 
         print("\nCurrent Trackers:")
         for name, data in trackers.items():
             status = "Complete" if data["progress"] >= data["max"] else " In Progress"
             print(f"  {name} [{data['type']}] — {data['progress']}/{data['max']} | Assigned to: {data['assigned']} | {status}")
-        print("\n[NOTE] You can remove trackers by signaling 'progress=-999'.\n")
+        print("\n[NOTE] You can remove trackers by signaling 'progress=999'.\n")
         return None
 
     # Safeties
@@ -46,7 +47,7 @@ def main(task_name=None, max=3, progress=0, assigned="Party", result="", session
         return session
 
     # Increment progress if tracker exists
-    if progress != 0:
+    if progress != 0 and progress != 999:
         trackers[task_name]["progress"] += progress
         session.setter("trackers", trackers)
         print(f"Progressed '{task_name}' to {trackers[task_name]['progress']}/{trackers[task_name]['max']}")
@@ -55,8 +56,8 @@ def main(task_name=None, max=3, progress=0, assigned="Party", result="", session
     if trackers[task_name]["progress"] >= trackers[task_name]["max"]:
         print(f"'{task_name}' is complete! Result: {trackers[task_name]['result']}")
         
-    # Delete tracker if progress is -999
-    if progress == -999:
+    # Delete tracker if progress is 999
+    if progress == 999:
         del trackers[task_name]
         session.setter("trackers", trackers)
         print(f"Removed tracker: {task_name}")

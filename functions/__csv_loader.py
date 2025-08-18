@@ -24,11 +24,18 @@ class DataStore:    #WARNING: DataStore contains cached lists, not PATHs! DO NOT
     sins                = load_csv('sins')
     boosters            = load_csv('boosters')
     events              = load_csv('events')
-    current_session     = load_csv('current_session')
-    previous_sessions   = load_csv('previous_sessions')
     reactions           = load_csv('reactions')
     afflictions         = load_csv('afflictions')
     traces              = load_csv('traces')
+    try:
+        current_session     = load_csv('current_session')
+        previous_sessions   = load_csv('previous_sessions')
+    except FileNotFoundError:
+        print("No save files found.")
+        pass
+    except:
+        print("[Debug] A huge blunder happened in csv_loader.")
+        pass
 
 
 # This class is used to store the session details

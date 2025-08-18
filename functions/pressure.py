@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Handles pressure escalation in the CAIN system."""
 
-def pressure(session=None):
+def main(session=None):
     """Increase pressure, boost Sin HP, and trigger a major action."""
 
     if session is None:
@@ -10,11 +10,11 @@ def pressure(session=None):
 
     # Increase pressure
     current_pressure = session.getter("pressure")
-    new_pressure = current_pressure + 1
+    new_pressure = int(current_pressure) + 1
     session.setter("pressure", new_pressure)
 
     # Boost Sin HP
-    sin_hp = session.getter("sin_HP")
+    sin_hp = int(session.getter("sin_HP"))
     session.setter("sin_HP", sin_hp + 1)
 
     # Trigger major action

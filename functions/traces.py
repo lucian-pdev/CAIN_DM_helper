@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Display information about currently summoned enemy traces."""
 
-def traces(session=None):
+def main(session=None):
     """Prints the status of currently existing traces from the session."""
 
     if session is None:

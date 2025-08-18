@@ -16,7 +16,7 @@ def main(session=None):
     stitle = session.getter("sin")["title"]
     stype = session.getter("sin")["sin_type"]
     shp   = session.getter("sin_HP")
-    scategory = session.getter("sin")("category")
+    scategory = session.getter("sin")["category"]
     domain_1 = session.getter("sin")["domain_1"]
     domain_2 = session.getter("sin")["domain_2"]
     domain_3 = session.getter("sin")["domain_3"]
@@ -26,11 +26,12 @@ def main(session=None):
     print(buffer.center(100))
     buffer = stype + " : CAT " + scategory
     print(buffer.center(100))
-    buffer = "Execution Talisman: " + shp
+    buffer = f"Execution Talisman: {shp}"
     print(buffer.center(100))
-    print(f"-"*100, "\n", sep = "")
-    buffer = "Domains: " + domain_1 + ", " + domain_2 + ", " + domain_3
-    print(f"-"*100, "\n", sep = "")
+    print(f"-"*100, sep = "")
+    buffer = f"Domains: {domain_1}, {domain_2}, {domain_3}"
+    print(buffer.center(100))
+    print(f"-"*100, sep = "")
     
     print("Sin command arguments: show, hp, act, attack, threat, severe, afflict, trace, question.")
     return None
@@ -45,16 +46,25 @@ def show(session=None):
     host_description = session.getter("sin")["host_description"]
     form = session.getter("sin")["form"]
     
-    print(
-        f"""Born of {host_description.lower()}.\n
+    print(f"""Born of {host_description.lower()}.\n
         This sin is of Type {form}"""
         )
 
     return None
 
-def hp(session, value):
+def hp(value=None,session=None):
     """Modify boss's hp value, from damage or pressure."""
     
+    if value is None:
+        try:
+            value = int(input("How many tallies to scratch on the sin's HP? [123]\n> "))
+        except:
+            try:
+                value = int(input("Only numbers are allowed. [123]\n> "))
+            except:
+                print("3rd time's the charm! (of failure)")
+                return None
+            
     if session is None:
         print("This command requires an active session.")
         return None
@@ -63,13 +73,23 @@ def hp(session, value):
         
     return session
 
-def act(session=None, roll=6):
+def act(roll=None, session=None):
     """The action engine for the boss's turn. Uses risk die to determine behavior."""
 
     if session is None:
         print("This command requires an active session.")
         return None
 
+    if roll is None:
+        try:
+            roll = int(input("What's the roll on the risk die? [1-6]\n> "))
+        except:
+            try:
+                roll = int(input("Only numbers from 1 to 6 are allowed. [1-6]\n> "))
+            except:
+                print("3rd time's the charm! (of failure)")
+                return None
+    
     sin_data = session.getter("sin")
     if not sin_data:
         print("No sin is set.")
@@ -102,8 +122,8 @@ def act(session=None, roll=6):
         return None
 
     chosen_action = random.choice(available_actions)
-    print(f"\nRisk Die Rolled: {roll}")
-    print(f"Boss chooses to: {chosen_action.upper()}")
+    print(f"\nRisk Die Rolled: {roll}\n")
+    print(f"Boss chooses to use: {chosen_action.upper()}\n\n")
 
     time.sleep(3) # Give the user time to read the previous line
     
@@ -118,6 +138,14 @@ def act(session=None, roll=6):
         afflict(session=session)  # Show affliction options
     elif chosen_action == "trace":
         trace(session=session)    # Show trace options
+    elif chosen_action == "domain":
+        domain_1 = session.getter("sin")["domain_1"]
+        domain_2 = session.getter("sin")["domain_2"]
+        domain_3 = session.getter("sin")["domain_3"]
+        print(f"-"*100, sep = "")
+        buffer = f"Domains: {domain_1}, {domain_2}, {domain_3}"
+        print(buffer.center(100))
+        print(f"-"*100, sep = "")
 
     return session
 
@@ -168,7 +196,7 @@ def severe(session=None):
           + severe_attack_questions[1] + "\n"
           + severe_attack_questions[2] + "\n\n"
           )
-    print(format_paragraph(severe_attack_effects()) + "\n")
+    print(format_paragraph(severe_attack_effects) + "\n")
 
     return None
 
@@ -185,19 +213,44 @@ def afflict(player=None, affliction_index=None, session=None):
         print("No sin is set.")
         return
 
-    afflictions = sin_data.get("afflictions", "")
-    afflictions = [aff.strip() for aff in afflictions.split("; ") if aff.strip()]
+    afflictions = sin_data.get("afflictions_list", "")
+    afflictions = [aff.strip() for aff in afflictions.split(";") if aff.strip()]
 
     if not afflictions:
         print("No afflictions found for this sin.")
         return
 
-    # Show afflictions if no index is provided
-    if affliction_index is None or player is None:
+    valid_players = session.getter("PCs") or []
+    
+    # prompt for a target if not provided
+    if player is None:
+        print("\nChoose a plyer to afflict:")
+        for i, name in enumerate(valid_players):
+            print(f" [{i}] {name}")
+        try:
+            choice = int(input("> "))
+            player = valid_players[choice]
+        except (ValueError, IndexError):
+            print("Invalid player selection.")
+            return None
+        
+    # prompt for affliction if not provided
+    if affliction_index is None:
         print(f"\nAvailable afflictions for sin type: {sin_data.get('sin_type', 'Unknown')}")
         for i, aff in enumerate(afflictions):
             print(f"  [{i}] {aff}")
+        try:
+            affliction_index = int(input("Choose an affliction:\n> "))
+        except ValueError:
+            print("Affliction index must be an integer.")
+            return
+    
+    # Show afflictions if index is out of range
+    if affliction_index < 0 or affliction_index > len(afflictions):
         print("\nTo afflict: afflict(player_name, affliction_index)")
+        print(f"\nAvailable afflictions for sin type: {sin_data.get('sin_type', 'Unknown')}")
+        for i, aff in enumerate(afflictions):
+            print(f"  [{i}] {aff}")
         return
 
     # Validate player name
@@ -232,11 +285,10 @@ def afflict(player=None, affliction_index=None, session=None):
 
     print(f"{player} is now afflicted with: {affliction}")
 
-
     return session
 
 def trace(index_for_name=None, value_for_talisman=None, session=None):
-    """Summon a trace by index and HP value, or show options if no input is given."""
+    """Summon a trace by index and HP value, or show options and prompt if no input is given."""
 
     if session is None:
         print("Session is required.")
@@ -247,29 +299,31 @@ def trace(index_for_name=None, value_for_talisman=None, session=None):
         print("No sin is set.")
         return
 
-    sin_type = session.getter("sin")["sin_type"]
+    sin_type = current_sin.get("sin_type", "Unknown")
     matched_traces = [trace for trace in DataStore.traces if trace["sin_type"] == sin_type]
 
     if not matched_traces:
         print("No traces found for this sin type.")
         return
 
-    # Show options if no input is provided
-    if index_for_name is None or value_for_talisman is None:
+    # Prompt for index if not provided
+    if index_for_name is None:
         print(f"\nAvailable traces for sin type: {sin_type}")
         for i, trace in enumerate(matched_traces):
             name = trace["trace_name"]
             hp_pool = [int(hp.strip()) for hp in trace["talisman"].split(";") if hp.strip().isdigit()]
             print(f"  [{i}] {name} — HP tiers: {hp_pool}")
-        print("\nTo summon: trace(index_for_name, value_for_talisman)")
-        return
+        try:
+            index_for_name = int(input("Choose a trace by index:\n> "))
+        except ValueError:
+            print("Invalid input. Index must be an integer.")
+            return
 
-    # Validate index and talisman
+    # Validate index
     try:
         index = int(index_for_name)
-        hp = int(value_for_talisman)
     except ValueError:
-        print("Invalid input. Both index and talisman must be integers.")
+        print("Invalid input. Index must be an integer.")
         return
 
     if index < 0 or index >= len(matched_traces):
@@ -280,15 +334,30 @@ def trace(index_for_name=None, value_for_talisman=None, session=None):
     name = trace_obj["trace_name"]
     hp_pool = [int(hp.strip()) for hp in trace_obj["talisman"].split(";") if hp.strip().isdigit()]
 
+    # Prompt for HP value if not provided
+    if value_for_talisman is None:
+        print(f"\nHP tiers for {name}: {hp_pool}")
+        try:
+            value_for_talisman = int(input("Choose HP value:\n> "))
+        except ValueError:
+            print("Invalid input. HP must be an integer.")
+            return
+
+    # Validate HP
+    try:
+        hp = int(value_for_talisman)
+    except ValueError:
+        print("Invalid input. HP must be an integer.")
+        return
+
     if hp not in hp_pool:
         print(f"Invalid HP value. Choose from: {hp_pool}")
         return
 
+    # Apply trace
     session.setter("traces", {name: hp})
-    print(f"Summoned trace: {name} with HP {hp}")
-    
+    print(f"\nSummoned trace: {name} with HP {hp}")
     return session
-
 
 def question(session=None):
     """Prints Trauma Questions and answers related to Boss"""

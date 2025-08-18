@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Display current afflictions affecting players in the session."""
 
-def afflictions(session=None):
+def main(session=None):
     """Show all active afflictions grouped by player."""
 
     if session is None:
